@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marvel Studios · ECHOES OF STRUGGLE</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- CUSTOM CURSOR -->
+  <canvas class="cursor-smoke" id="cursorSmoke" aria-hidden="true"></canvas>
+  <div class="cursor-outer" id="cursorOuter"></div>
+  <div class="cursor-inner" id="cursorInner"></div>
+
+  <!-- CINEMATIC VIGNETTE -->
+  <div class="vignette"></div>
+
+  <!-- LOADER -->
+  <div class="loader" id="loader">
+    <div class="loader-bg"></div>
+    <video class="loader-video" id="loaderVideo" muted playsinline preload="auto" aria-label="Marvel Studios intro video">
+      <source src="LoadingPage.mp4" type="video/mp4" />
+    </video>
+    <audio id="loaderAudio" preload="auto" aria-label="Marvel Studios intro audio">
+      <source src="audio.mp3" type="audio/mpeg" />
+    </audio>
+    <div class="loader-video-overlay" aria-hidden="true"></div>
+    <div class="loader-content">
+      <div class="loader-logo">
+        <svg viewBox="0 0 900 180" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="marvelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#e62429"/>
+              <stop offset="40%" style="stop-color:#ffffff"/>
+              <stop offset="100%" style="stop-color:#f5b31c"/>
+            </linearGradient>
+            <filter id="glow-filter">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <text x="450" y="130" fill="url(#marvelGrad)" font-family="Bebas Neue,Impact" font-size="140" letter-spacing="18" text-anchor="middle" filter="url(#glow-filter)">MARVEL</text>
+        </svg>
+      </div>
+      <div class="loader-sub">STUDIOS · ECHOES OF STRUGGLE</div>
+      <div class="loader-bar-wrap"><div class="loader-bar-fill" id="loaderBar"></div></div>
+      <div class="loader-percent" id="loaderPercent">0%</div>
+    </div>
+    <button class="loader-skip" id="loaderSkip" type="button" hidden>SKIP INTRO</button>
+  </div>
+
+  <!-- STICKY NAV -->
+  <nav class="site-nav" id="siteNav">
+    <div class="nav-logo">
+      <svg viewBox="0 0 200 40" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="32" fill="#e62429" font-family="Bebas Neue,Impact" font-size="36" letter-spacing="4">MARVEL</text>
+      </svg>
+    </div>
+    <div class="nav-links" id="navLinks"></div>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Open navigation menu" aria-controls="mobileMenu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true" inert>
+    <div class="mobile-menu-links" id="mobileMenuLinks"></div>
+  </div>
+
+  <!-- SCROLL CONTAINER -->
+  <div data-scroll-container id="scroll-container">
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- HERO SECTION -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="hero-section" data-scroll-section id="section-hero">
+      <canvas class="hero-canvas" id="heroCanvas"></canvas>
+      <div class="hero-particles" id="heroParticles"></div>
+
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-line"></span>
+          <span class="eyebrow-text">MARVEL CINEMATIC UNIVERSE</span>
+          <span class="eyebrow-line"></span>
+        </div>
+        <h1 class="hero-title">
+          <span class="hero-title-line" data-text="ECHOES">ECHOES</span>
+          <span class="hero-title-line accent" data-text="OF STRUGGLE">OF STRUGGLE</span>
+        </h1>
+        <p class="hero-desc">Every hero carries a wound. Every legend bleeds. Discover the untold battles behind the masks.</p>
+        <div class="hero-cta-group">
+          <button class="btn-primary" id="heroExploreBtn">
+            <span>EXPLORE HEROES</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <button class="btn-ghost" id="heroScrollBtn">
+            <span>SCROLL DOWN</span>
+            <div class="scroll-indicator"><div class="scroll-dot"></div></div>
+          </button>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><span class="stat-num" data-count="30">0</span><span class="stat-label">MCU Films</span></div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat"><span class="stat-num" data-count="20">0</span><span class="stat-label">Heroes</span></div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat"><span class="stat-num" data-count="15">0</span><span class="stat-label">Years of Legacy</span></div>
+        </div>
+      </div>
+
+      <div class="hero-image-wrap">
+        <img src="main.png" alt="The Avengers assembled" class="hero-main-img" id="heroMainImg" fetchpriority="high" />
+        <div class="hero-glow-ring"></div>
+        <div class="hero-glow-ring ring2"></div>
+        <div class="hero-image-caption" aria-hidden="true">
+          <span class="hero-image-index">THE INFINITY SAGA <i></i> 01—20</span>
+          <span class="hero-image-title">EARTH'S MIGHTIEST</span>
+          <span class="hero-image-subtitle">A universe built on courage.</span>
+        </div>
+      </div>
+
+      <div class="hero-scroll-hint">
+        <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+        <span>SCROLL TO EXPLORE</span>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- AVENGERS ROSTER GRID -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="roster-section" data-scroll-section id="section-roster">
+      <div class="section-header">
+        <span class="section-tag">THE ROSTER</span>
+        <h2 class="section-title">EARTH'S MIGHTIEST <span class="text-accent">HEROES</span></h2>
+        <p class="section-sub">Click any hero to explore their story</p>
+      </div>
+      <div class="roster-grid" id="rosterGrid"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- CHARACTER SECTIONS (injected by JS) -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div id="character-sections"></div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- OFFICIAL MARVEL SHOP -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="shop-section" data-scroll-section id="section-shop">
+      <div class="section-header shop-header">
+        <span class="section-tag">MARVEL GEAR</span>
+        <h2 class="section-title">SUIT UP WITH <span class="text-accent">OFFICIAL GEAR</span></h2>
+        <p class="section-sub">Collectibles and gear from the official Disney Store</p>
+      </div>
+      <div class="shop-grid">
+        <a class="shop-card" href="https://www.disneystore.com/spider-man-mego-8-action-figure-set-2-worlds-greatest-super-heroes-850003511702.html" target="_blank" rel="noopener noreferrer">
+          <div class="shop-card-image"><img src="https://cdn-ssl.s7.shopdisney.com/is/image/DisneyShopping/1814107820402?fmt=webp&amp;qlt=70&amp;wid=773&amp;hei=773" alt="Spider-Man Mego 8-inch action figure set" loading="lazy" /></div>
+          <div class="shop-card-info"><span class="shop-card-category">COLLECTIBLE SET</span><h3>Spider-Man Mego Figure Set</h3><span class="shop-card-link">VIEW AT DISNEY STORE <span aria-hidden="true">↗</span></span></div>
+        </a>
+        <a class="shop-card" href="https://www.disneystore.com/hulk-action-figure-marvel-toybox-6-417131541140.html" target="_blank" rel="noopener noreferrer">
+          <div class="shop-card-image"><img src="https://cdn-ssl.s7.shopdisney.com/is/image/DisneyShopping/1713047621091?fmt=webp&amp;qlt=70&amp;wid=773&amp;hei=773" alt="Hulk Marvel Toybox action figure" loading="lazy" /></div>
+          <div class="shop-card-info"><span class="shop-card-category">ACTION FIGURE</span><h3>Hulk Marvel Toybox Figure</h3><span class="shop-card-link">VIEW AT DISNEY STORE <span aria-hidden="true">↗</span></span></div>
+        </a>
+        <a class="shop-card" href="https://www.disneystore.com/the-invincible-iron-man-action-figure-marvel-toybox-5-14-417131506903.html" target="_blank" rel="noopener noreferrer">
+          <div class="shop-card-image"><img src="https://cdn-ssl.s7.shopdisney.com/is/image/DisneyShopping/1713047621087?fmt=webp&amp;qlt=70&amp;wid=773&amp;hei=773" alt="The Invincible Iron Man Marvel Toybox action figure" loading="lazy" /></div>
+          <div class="shop-card-info"><span class="shop-card-category">ACTION FIGURE</span><h3>Iron Man Marvel Toybox Figure</h3><span class="shop-card-link">VIEW AT DISNEY STORE <span aria-hidden="true">↗</span></span></div>
+        </a>
+        <a class="shop-card" href="https://www.disneystore.com/iron-spider-spider-bot-interactive-remote-control-bot-limited-edition-418140474412.html" target="_blank" rel="noopener noreferrer">
+          <div class="shop-card-image"><img src="https://cdn-ssl.s7.shopdisney.com/is/image/DisneyShopping/1814047620295?fmt=webp&amp;qlt=70&amp;wid=773&amp;hei=773" alt="Iron Spider Spider-Bot remote control collectible" loading="lazy" /></div>
+          <div class="shop-card-info"><span class="shop-card-category">INTERACTIVE COLLECTIBLE</span><h3>Iron Spider Spider-Bot</h3><span class="shop-card-link">VIEW AT DISNEY STORE <span aria-hidden="true">↗</span></span></div>
+        </a>
+      </div>
+      <a class="shop-all-link" href="https://www.disneystore.com/franchises/marvel/" target="_blank" rel="noopener noreferrer">SHOP ALL MARVEL AT DISNEY STORE <span aria-hidden="true">↗</span></a>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- INFINITY STONES SECTION -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="stones-section" data-scroll-section id="section-stones">
+      <div class="stones-bg"></div>
+      <div class="section-header">
+        <span class="section-tag">THE INFINITY GAUNTLET</span>
+        <h2 class="section-title">SIX STONES. <span class="text-accent">INFINITE POWER.</span></h2>
+      </div>
+      <div class="stones-grid">
+        <div class="stone" data-stone="space" style="--sc:#4fc3f7">
+          <div class="stone-gem"></div>
+          <div class="stone-name">SPACE</div>
+          <div class="stone-desc">Controls space & teleportation</div>
+        </div>
+        <div class="stone" data-stone="mind" style="--sc:#fff176">
+          <div class="stone-gem"></div>
+          <div class="stone-name">MIND</div>
+          <div class="stone-desc">Controls thoughts & will</div>
+        </div>
+        <div class="stone" data-stone="reality" style="--sc:#ef5350">
+          <div class="stone-gem"></div>
+          <div class="stone-name">REALITY</div>
+          <div class="stone-desc">Alters reality itself</div>
+        </div>
+        <div class="stone" data-stone="power" style="--sc:#ab47bc">
+          <div class="stone-gem"></div>
+          <div class="stone-name">POWER</div>
+          <div class="stone-desc">Amplifies all energy</div>
+        </div>
+        <div class="stone" data-stone="time" style="--sc:#66bb6a">
+          <div class="stone-gem"></div>
+          <div class="stone-name">TIME</div>
+          <div class="stone-desc">Manipulates time flow</div>
+        </div>
+        <div class="stone" data-stone="soul" style="--sc:#ffa726">
+          <div class="stone-gem"></div>
+          <div class="stone-name">SOUL</div>
+          <div class="stone-desc">Commands all living souls</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- TIMELINE SECTION -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="timeline-section" data-scroll-section id="section-timeline">
+      <div class="section-header">
+        <span class="section-tag">THE MARVEL CINEMATIC UNIVERSE</span>
+        <h2 class="section-title">ONE UNIVERSE. <span class="text-accent">EVERY STORY.</span></h2>
+        <p class="section-sub">Films, series and specials in story order — with a dedicated journey for every hero.</p>
+      </div>
+      <div class="timeline-explorer">
+        <div class="timeline-toolbar">
+          <label for="heroTimelineSelect">FOLLOW A HERO
+            <select id="heroTimelineSelect">
+              <option value="all">Complete MCU timeline</option>
+            </select>
+          </label>
+          <span class="timeline-result-count" id="timelineResultCount" aria-live="polite"></span>
+        </div>
+        <p class="timeline-note">Released titles through 31 October 2026. Story dates are approximate; the Defenders Saga follows its own 2015–18 sequence, and TVA, multiverse and anthology stories are marked separately. <a href="https://www.marvel.com/articles/movies/mcu-timeline-order-disney-plus" target="_blank" rel="noopener noreferrer">Marvel's official MCU timeline ↗</a> · <a href="https://www.disneyplus.com/brand/the-defenders-saga" target="_blank" rel="noopener noreferrer">Defenders Saga ↗</a></p>
+        <div class="timeline" id="mcuTimeline"></div>
+      </div>
+      <div class="watch-order" id="watch-order">
+        <div class="watch-order-heading">
+          <span class="section-tag">NEW TO MARVEL?</span>
+          <h3>YOUR MCU <span class="text-accent">WATCH ORDER</span></h3>
+          <p>This chronological route follows in-universe events rather than release dates. For a first viewing, release order preserves the original reveals; this is the story-first path.</p>
+        </div>
+        <ol class="watch-order-list" id="watchOrderList"></ol>
+          <div class="watch-order-sidepaths">
+            <h4>PARALLEL TIMELINES &amp; ANTHOLOGIES</h4>
+            <p>These stories branch away from the main MCU timeline, so they are best watched after the core saga.</p>
+            <ol class="watch-order-list" id="watchOrderSidepaths"></ol>
+          </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- FOOTER -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <footer class="site-footer" data-scroll-section>
+      <div class="footer-glow"></div>
+      <div class="footer-content">
+        <div class="footer-intro">
+          <div class="footer-logo">
+            <svg viewBox="0 0 300 60" xmlns="http://www.w3.org/2000/svg" aria-label="Marvel">
+              <text x="0" y="50" fill="#e62429" font-family="Bebas Neue,Impact" font-size="56" letter-spacing="6">MARVEL</text>
+            </svg>
+            <p>STUDIOS · ECHOES OF STRUGGLE</p>
+          </div>
+          <span class="footer-eyebrow">YOUR NEXT CREATIVE COLLABORATION</span>
+          <h2>LET'S MAKE<br /><span>SOMETHING EPIC.</span></h2>
+          <p class="footer-intro-copy">Reach out to <strong>Vedant Mhatre</strong> for design, ideas, or just to connect.</p>
+        </div>
+        <div class="footer-contact">
+          <a class="footer-contact-link" href="mailto:vedantmh48@gmail.com">
+            <span class="footer-contact-icon" aria-hidden="true">@</span>
+            <span><small>EMAIL</small><strong>vedantmh48@gmail.com</strong></span>
+            <span class="footer-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="footer-contact-link" href="https://wa.me/919028076580" target="_blank" rel="noopener noreferrer">
+            <span class="footer-contact-icon" aria-hidden="true">W</span>
+            <span><small>WHATSAPP</small><strong>+91 90280 76580</strong></span>
+            <span class="footer-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="footer-contact-link" href="https://github.com/vedantmh48-cpu/" target="_blank" rel="noopener noreferrer">
+            <span class="footer-contact-icon" aria-hidden="true">GH</span>
+            <span><small>GITHUB</small><strong>vedantmh48-cpu</strong></span>
+            <span class="footer-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="footer-contact-link" href="https://www.linkedin.com/in/vedant-mhatre-4aa554423/" target="_blank" rel="noopener noreferrer">
+            <span class="footer-contact-icon" aria-hidden="true">in</span>
+            <span><small>LINKEDIN</small><strong>Vedant Mhatre</strong></span>
+            <span class="footer-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="footer-contact-link" href="https://vedantmh48-cpu.github.io/portfolio/" target="_blank" rel="noopener noreferrer">
+            <span class="footer-contact-icon" aria-hidden="true">PF</span>
+            <span><small>PORTFOLIO</small><strong>Explore my work</strong></span>
+            <span class="footer-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <div class="footer-contact-link footer-contact-link-disabled" aria-label="Instagram profile coming soon">
+            <span class="footer-contact-icon" aria-hidden="true">IG</span>
+            <span><small>INSTAGRAM</small><strong>Profile coming soon</strong></span>
+            <span class="footer-link-arrow" aria-hidden="true">—</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© <span id="footerYear">2026</span> Vedant Mhatre · Marvel characters and imagery belong to Marvel Studios &amp; Disney.</p>
+        <p>Created for fans. Not affiliated with Marvel Studios.</p>
+      </div>
+    </footer>
+
+  </div><!-- end scroll-container -->
+
+  <!-- CHARACTER MODAL -->
+  <div class="char-modal" id="charModal">
+    <div class="char-modal-backdrop" id="charModalBackdrop"></div>
+    <div class="char-modal-panel" id="charModalPanel">
+      <button class="modal-close-btn" id="modalCloseBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="modal-hero-img-wrap">
+        <img src="" alt="" id="modalImg" class="modal-hero-img" />
+        <div class="modal-img-glow" id="modalImgGlow"></div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-tag" id="modalTag"></div>
+        <h2 class="modal-name" id="modalName"></h2>
+        <div class="modal-quote" id="modalQuote"></div>
+        <div class="modal-stats" id="modalStats"></div>
+        <div class="modal-divider"></div>
+        <p class="modal-story" id="modalStory"></p>
+        <h3 class="modal-appearances-heading">KEY SCREEN APPEARANCES · STORY ORDER</h3>
+        <div class="modal-abilities" id="modalAbilities"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
