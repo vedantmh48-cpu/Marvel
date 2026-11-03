@@ -386,126 +386,94 @@ function buildTimeline() {
 ══════════════════════════════════════════ */
 function initLoader() {
   const loader = document.getElementById('loader');
-  const bar = document.getElementById('loaderBar');
-  const pct = document.getElementById('loaderPercent');
-  const video = document.getElementById('loaderVideo');
-  const audio = document.getElementById('loaderAudio');
-  const skipButton = document.getElementById('loaderSkip');
-  if (prefersReducedMotion) {
-    bar.style.width = '100%';
-    pct.textContent = '100%';
-    video.pause();
-    audio.pause();
-    loader.style.display = 'none';
-    initApp();
-    return;
-  }
+  const image = loader.querySelector('.loader-feature-image');
+  const intro = document.getElementById('introScreen');
+  const video = document.getElementById('introVideo');
+  const audio = document.getElementById('introAudio');
+  const soundButton = document.getElementById('introSound');
+  const skipButton = document.getElementById('introSkip');
 
   let finished = false;
-  let waitingForPlay = false;
-  let audioNeedsGesture = false;
-  let interval;
+  let loaderFinished = false;
+  let imageTimer;
+  let fallbackTimer;
 
-  const finishIntro = () => {
+  const finishExperience = () => {
     if (finished) return;
     finished = true;
-    clearInterval(interval);
+    clearTimeout(imageTimer);
+    clearTimeout(fallbackTimer);
     video.pause();
     audio.pause();
+    intro.classList.remove('is-active');
+    window.setTimeout(() => {
+      intro.hidden = true;
+      initApp();
+    }, 450);
+  };
+
+  const startIntro = () => {
+    intro.hidden = false;
+    requestAnimationFrame(() => intro.classList.add('is-active'));
+    video.currentTime = 0;
+    audio.currentTime = 0;
+    video.muted = true;
+    video.play().catch(() => {
+      soundButton.textContent = 'PLAY INTRO';
+      soundButton.hidden = false;
+    });
+    audio.play().catch(() => {
+      soundButton.textContent = 'ENABLE SOUND';
+      soundButton.hidden = false;
+    });
+  };
+
+  video.addEventListener('ended', finishExperience, { once: true });
+  video.addEventListener('error', finishExperience, { once: true });
+  skipButton.addEventListener('click', finishExperience);
+  soundButton.addEventListener('click', () => {
+    soundButton.hidden = true;
+    audio.currentTime = Math.min(video.currentTime, audio.duration || video.currentTime);
+    audio.play().catch(() => { soundButton.hidden = false; });
+    if (video.paused) {
+      video.play().catch(() => {
+        soundButton.textContent = 'PLAY INTRO';
+        soundButton.hidden = false;
+      });
+    }
+  });
+
+  const finishLoader = () => {
+    if (loaderFinished || finished) return;
+    loaderFinished = true;
+    clearTimeout(imageTimer);
+    clearTimeout(fallbackTimer);
+    if (prefersReducedMotion) {
+      loader.style.display = 'none';
+      finished = true;
+      initApp();
+      return;
+    }
     gsap.to(loader, {
       opacity: 0,
       duration: 0.7,
       ease: 'power2.inOut',
       onComplete: () => {
         loader.style.display = 'none';
-        initApp();
+        startIntro();
       }
     });
   };
 
-  const playIntroAudio = () => {
-    audio.play().then(() => {
-      audioNeedsGesture = false;
-      if (!waitingForPlay) skipButton.textContent = 'SKIP INTRO';
-    }).catch(error => {
-      if (error.name === 'NotAllowedError') {
-        audioNeedsGesture = true;
-        if (!waitingForPlay) skipButton.textContent = 'ENABLE AUDIO';
-        console.warn('Intro audio autoplay was blocked; waiting for a user gesture.');
-        return;
-      }
-      console.error('The intro audio could not be played.', error);
-    });
+  const showImageThenIntro = () => {
+    if (imageTimer || loaderFinished) return;
+    imageTimer = setTimeout(finishLoader, 1400);
   };
 
-  const startIntro = () => {
-    loader.classList.add('is-intro');
-    skipButton.hidden = false;
-    skipButton.textContent = 'SKIP INTRO';
-    video.currentTime = 0;
-    audio.currentTime = 0;
-    waitingForPlay = true;
-    playIntroAudio();
-    video.play().then(() => {
-      waitingForPlay = false;
-      skipButton.textContent = audioNeedsGesture ? 'ENABLE AUDIO' : 'SKIP INTRO';
-    }).catch(error => {
-      if (error.name === 'NotAllowedError') {
-        waitingForPlay = true;
-        skipButton.textContent = 'PLAY INTRO';
-        console.warn('Intro autoplay was blocked; waiting for a user gesture.');
-        return;
-      }
-      console.error('The intro video could not be played.', error);
-      finishIntro();
-    });
-  };
-
-  skipButton.addEventListener('click', () => {
-    if (waitingForPlay) {
-      audio.currentTime = 0;
-      playIntroAudio();
-      video.play().then(() => {
-        waitingForPlay = false;
-        skipButton.textContent = audioNeedsGesture ? 'ENABLE AUDIO' : 'SKIP INTRO';
-      }).catch(error => {
-        console.error('The intro video could not be started.', error);
-        finishIntro();
-      });
-      return;
-    }
-
-    if (audioNeedsGesture) {
-      playIntroAudio();
-      return;
-    }
-
-    finishIntro();
-  });
-  video.addEventListener('ended', finishIntro, { once: true });
-  video.addEventListener('error', () => {
-    console.error('The intro video failed to load.', video.error);
-    finishIntro();
-  }, { once: true });
-
-  let progress = 0;
-
-  interval = setInterval(() => {
-    progress += Math.random() * 4 + 1;
-    if (progress >= 100) { progress = 100; clearInterval(interval); }
-    bar.style.width = progress + '%';
-    pct.textContent = Math.floor(progress) + '%';
-    if (progress === 100) {
-      setTimeout(() => {
-        gsap.to('.loader-content', {
-          opacity: 0,
-          duration: 0.35,
-          ease: 'power2.inOut',
-          onComplete: startIntro
-        });
-      }, 400);
-    }
-  }, 40);
+  image.addEventListener('load', showImageThenIntro, { once: true });
+  image.addEventListener('error', showImageThenIntro, { once: true });
+  fallbackTimer = setTimeout(finishLoader, 5000);
+  if (image.complete) showImageThenIntro();
 }
 
 /* ══════════════════════════════════════════
@@ -598,21 +566,27 @@ function initNav() {
     { label: 'Heroes', target: 'section-roster' },
     { label: 'Characters', target: 'character-sections' },
     { label: 'Shop', target: 'section-shop' },
+    { label: 'Shop All', href: 'shop.html' },
     { label: 'Infinity Stones', target: 'section-stones' },
     { label: 'Timeline', target: 'section-timeline' }
   ];
 
   navItems.forEach(item => {
     [navLinks, mobileLinks].forEach(container => {
-      const btn = document.createElement('button');
-      btn.className = 'nav-link';
-      btn.textContent = item.label;
-      btn.addEventListener('click', () => {
-        const el = document.getElementById(item.target);
-        if (el && window.locoScroll) window.locoScroll.scrollTo(el);
-        setMenuOpen(false);
-      });
-      container.appendChild(btn);
+      const link = document.createElement(item.href ? 'a' : 'button');
+      link.className = 'nav-link';
+      link.textContent = item.label;
+      if (item.href) {
+        link.href = item.href;
+      } else {
+        link.type = 'button';
+        link.addEventListener('click', () => {
+          const el = document.getElementById(item.target);
+          if (el && window.locoScroll) window.locoScroll.scrollTo(el);
+          setMenuOpen(false);
+        });
+      }
+      container.appendChild(link);
     });
   });
 
@@ -1021,7 +995,7 @@ function initScrollAnimations(scroller) {
   // Timeline items
   document.querySelectorAll('.timeline-item').forEach((item, i) => {
     gsap.fromTo(item,
-      { opacity: 0, x: -40 },
+      { opacity: 0, x: Number(item.dataset.projectIndex) % 2 === 0 ? 40 : -40 },
       {
         opacity: 1, x: 0,
         duration: 0.7, ease: 'power3.out',

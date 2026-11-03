@@ -1,0 +1,51 @@
+.shop-page { min-height: 100vh; background: #08090c; cursor: auto; }
+.shop-page *, .shop-page a, .shop-page button { cursor: auto; }
+.shop-page a, .shop-page button { cursor: pointer; }
+.shop-nav { position: sticky; top: 0; z-index: 10; min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .8rem clamp(1.2rem,5vw,5rem); background: rgba(7,9,12,.92); border-bottom: 1px solid rgba(255,255,255,.08); backdrop-filter: blur(16px); }
+.shop-brand { color: #f3f5f8; font: 1.9rem/1 var(--font-display); letter-spacing: 2px; }
+.shop-brand span { color: var(--red); font: 700 .53rem var(--font-body); letter-spacing: 2px; vertical-align: middle; }
+.shop-nav nav { display: flex; gap: clamp(.8rem,2.5vw,2.2rem); }
+.shop-nav nav a,.shop-footer>a:last-child { color: #a8b0bc; font-size: .65rem; font-weight: 700; letter-spacing: 1.5px; transition: color .2s; }
+.shop-nav nav a:hover,.shop-nav nav .is-current,.shop-footer>a:last-child:hover { color: #fff; }
+.shop-masthead { position: relative; min-height: 440px; padding: clamp(5rem,11vw,9rem) clamp(1.3rem,8vw,8rem); overflow: hidden; background: radial-gradient(ellipse at 80% 40%,rgba(230,36,41,.27),transparent 35%),linear-gradient(110deg,#0c0f14,#15121a 60%,#08090c); }
+.shop-masthead::after { content: 'MARVEL'; position: absolute; right: -2vw; bottom: -8rem; color: rgba(255,255,255,.025); font: 28vw/.9 var(--font-display); pointer-events: none; }
+.shop-masthead h1 { position: relative; z-index: 1; margin: 1rem 0; color: #fff; font: clamp(4.4rem,11vw,9.5rem)/.79 var(--font-display); letter-spacing: .02em; }
+.shop-masthead h1 span,.catalog-heading h2 span { color: var(--red); }
+.shop-masthead p { max-width: 550px; margin: 1.6rem 0; color: #b4bcc8; font-size: .95rem; line-height: 1.8; }
+.shop-store-link { display: inline-flex; align-items: center; gap: .75rem; padding: .9rem 1.15rem; color: white; border: 1px solid rgba(230,36,41,.7); font-size: .62rem; font-weight: 700; letter-spacing: 1.5px; }
+.shop-store-link:hover { background: var(--red); }
+.shop-catalog { padding: 5rem clamp(1.2rem,5vw,5rem) 6rem; }
+.catalog-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; max-width: 1500px; margin: 0 auto 1.8rem; }
+.catalog-heading h2 { margin: .6rem 0 0; color: #fff; font: clamp(2.5rem,6vw,5rem)/.95 var(--font-display); }
+.catalog-count { color: #9ba5b3; font-size: .7rem; letter-spacing: 1px; white-space: nowrap; }
+.catalog-controls { max-width: 1500px; margin: 0 auto 1rem; display: grid; grid-template-columns: minmax(0,1fr) 220px; gap: .7rem; }
+.catalog-search input,.catalog-controls select { width: 100%; min-height: 48px; padding: .8rem 1rem; color: #fff; border: 1px solid rgba(255,255,255,.14); border-radius: 0; background: #11151b; font: .8rem var(--font-body); }
+.catalog-search input::placeholder { color: #7f8997; }
+.catalog-controls select { color-scheme: dark; }
+.store-pills { max-width: 1500px; margin: 0 auto 1.6rem; display: flex; flex-wrap: wrap; gap: .5rem; }
+.store-pill { padding: .65rem .9rem; color: #9ba5b3; border: 1px solid rgba(255,255,255,.15); background: transparent; font: 700 .58rem var(--font-body); letter-spacing: 1.2px; }
+.store-pill:hover,.store-pill.is-active { color: #fff; border-color: var(--red); background: rgba(230,36,41,.17); }
+.catalog-grid { max-width: 1500px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 1rem; }
+.catalog-card { min-width: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.09); background: #10141a; transition: transform .25s,border-color .25s; animation: catalogFade .35s both; }
+.catalog-card:hover { transform: translateY(-5px); border-color: rgba(230,36,41,.65); }
+.catalog-art { position: relative; height: 250px; overflow: hidden; display: grid; place-items: center; padding: 1rem; background: radial-gradient(ellipse at 50% 50%,rgba(230,36,41,.17),transparent 66%),#0b0e13; }
+.catalog-art img { height: 100%; width: 100%; object-fit: contain; filter: drop-shadow(0 10px 28px rgba(0,0,0,.5)); transition: transform .35s; }
+.catalog-card:hover .catalog-art img { transform: scale(1.045); }
+.catalog-art.catalog-product-photo { background: #f2f2f2; }
+.catalog-art.catalog-product-photo img { object-fit: contain; filter: none; }
+.catalog-store { position: absolute; bottom: .7rem; left: .7rem; padding: .4rem .55rem; color: #fff; background: rgba(7,9,12,.8); font-size: .52rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.catalog-info { min-height: 145px; padding: 1rem; display: flex; flex-direction: column; align-items: flex-start; }
+.catalog-category { color: var(--red); font-size: .55rem; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; }
+.catalog-info h3 { margin: .55rem 0 1rem; color: #f1f3f6; font: 1.4rem/1.08 var(--font-display); letter-spacing: .02em; }
+.catalog-action { margin-top: auto; padding-top: .5rem; color: #aab3bf; font-size: .56rem; font-weight: 700; letter-spacing: 1px; }
+.catalog-action:hover { color: white; }
+.catalog-note { max-width: 1500px; margin: 1.5rem auto 0; color: #788392; font-size: .7rem; line-height: 1.6; }
+.catalog-empty { grid-column: 1/-1; padding: 3rem; color: #b4bcc8; text-align: center; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+.shop-footer { min-height: 95px; padding: 1.5rem clamp(1.2rem,5vw,5rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-top: 1px solid rgba(255,255,255,.08); }
+.shop-footer > span { color: #6f7987; font-size: .65rem; text-align: center; }
+@keyframes catalogFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 1050px) { .catalog-grid { grid-template-columns: repeat(3,minmax(0,1fr)); } }
+@media (max-width: 720px) { .shop-nav { align-items: flex-start; flex-direction: column; padding: 1rem 1.2rem; } .shop-nav nav { width: 100%; justify-content: space-between; gap: .5rem; } .shop-nav nav a { font-size: .55rem; } .catalog-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: .65rem; } .catalog-art { height: 200px; } .catalog-info { min-height: 140px; padding: .8rem; } .catalog-info h3 { font-size: 1.2rem; } .catalog-controls { grid-template-columns: 1fr; } .shop-footer { flex-wrap: wrap; justify-content: center; } }
+@media (max-width: 390px) { .catalog-grid { grid-template-columns: 1fr; } .catalog-art { height: 260px; } }
+@media (prefers-reduced-motion: reduce) { .catalog-card { animation: none; } .catalog-card,.catalog-art img { transition: none; } }

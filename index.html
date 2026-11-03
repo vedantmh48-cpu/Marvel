@@ -23,39 +23,24 @@
   <!-- CINEMATIC VIGNETTE -->
   <div class="vignette"></div>
 
-  <!-- LOADER -->
+  <!-- IMAGE LOADER -->
   <div class="loader" id="loader">
-    <div class="loader-bg"></div>
-    <video class="loader-video" id="loaderVideo" muted playsinline preload="auto" aria-label="Marvel Studios intro video">
+    <img class="loader-feature-image" src="main.jpg" alt="" aria-hidden="true" />
+  </div>
+
+  <section class="intro-screen" id="introScreen" aria-label="Marvel Studios intro" hidden>
+    <video class="intro-video" id="introVideo" muted playsinline preload="none" aria-label="Marvel Studios cinematic intro">
       <source src="LoadingPage.mp4" type="video/mp4" />
     </video>
-    <audio id="loaderAudio" preload="auto" aria-label="Marvel Studios intro audio">
+    <audio id="introAudio" preload="none">
       <source src="audio.mp3" type="audio/mpeg" />
     </audio>
-    <div class="loader-video-overlay" aria-hidden="true"></div>
-    <div class="loader-content">
-      <div class="loader-logo">
-        <svg viewBox="0 0 900 180" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="marvelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:#e62429"/>
-              <stop offset="40%" style="stop-color:#ffffff"/>
-              <stop offset="100%" style="stop-color:#f5b31c"/>
-            </linearGradient>
-            <filter id="glow-filter">
-              <feGaussianBlur stdDeviation="4" result="blur"/>
-              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
-          <text x="450" y="130" fill="url(#marvelGrad)" font-family="Bebas Neue,Impact" font-size="140" letter-spacing="18" text-anchor="middle" filter="url(#glow-filter)">MARVEL</text>
-        </svg>
-      </div>
-      <div class="loader-sub">STUDIOS · ECHOES OF STRUGGLE</div>
-      <div class="loader-bar-wrap"><div class="loader-bar-fill" id="loaderBar"></div></div>
-      <div class="loader-percent" id="loaderPercent">0%</div>
+    <div class="intro-shade" aria-hidden="true"></div>
+    <div class="intro-controls">
+      <button class="intro-sound" id="introSound" type="button" hidden>ENABLE SOUND</button>
+      <button class="intro-skip" id="introSkip" type="button">SKIP INTRO <span aria-hidden="true">&rarr;</span></button>
     </div>
-    <button class="loader-skip" id="loaderSkip" type="button" hidden>SKIP INTRO</button>
-  </div>
+  </section>
 
   <!-- STICKY NAV -->
   <nav class="site-nav" id="siteNav">
@@ -92,13 +77,13 @@
           <span class="eyebrow-line"></span>
         </div>
         <h1 class="hero-title">
-          <span class="hero-title-line" data-text="ECHOES">ECHOES</span>
-          <span class="hero-title-line accent" data-text="OF STRUGGLE">OF STRUGGLE</span>
+          <span class="hero-title-line" data-text="MARVEL">MARVEL</span>
+          <span class="hero-title-line accent" data-text="UNIVERSE">UNIVERSE</span>
         </h1>
-        <p class="hero-desc">Every hero carries a wound. Every legend bleeds. Discover the untold battles behind the masks.</p>
+        <p class="hero-desc">Enter a universe of legendary heroes, unforgettable films and stories that changed everything.</p>
         <div class="hero-cta-group">
           <button class="btn-primary" id="heroExploreBtn">
-            <span>EXPLORE HEROES</span>
+            <span>EXPLORE THE UNIVERSE</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
           <button class="btn-ghost" id="heroScrollBtn">
@@ -158,6 +143,7 @@
         <h2 class="section-title">SUIT UP WITH <span class="text-accent">OFFICIAL GEAR</span></h2>
         <p class="section-sub">Collectibles and gear from the official Disney Store</p>
       </div>
+      <a class="shop-all-link home-shop-link" href="shop.html">BROWSE THE FULL MARVEL SHOP <span aria-hidden="true">&rarr;</span></a>
       <div class="shop-grid">
         <a class="shop-card" href="https://www.disneystore.com/spider-man-mego-8-action-figure-set-2-worlds-greatest-super-heroes-850003511702.html" target="_blank" rel="noopener noreferrer">
           <div class="shop-card-image"><img src="https://cdn-ssl.s7.shopdisney.com/is/image/DisneyShopping/1814107820402?fmt=webp&amp;qlt=70&amp;wid=773&amp;hei=773" alt="Spider-Man Mego 8-inch action figure set" loading="lazy" /></div>

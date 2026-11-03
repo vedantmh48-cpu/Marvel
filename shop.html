@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#08090c" />
+  <title>Marvel Shop | Marvel Studios</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="shop.css" />
+</head>
+<body class="shop-page">
+  <header class="shop-nav">
+    <a class="shop-brand" href="index.html" aria-label="Marvel home">MARVEL <span>STUDIOS</span></a>
+    <nav aria-label="Main navigation"><a href="index.html">HOME</a><a href="index.html#section-roster">HEROES</a><a href="index.html#section-timeline">TIMELINE</a><a class="is-current" href="shop.html">SHOP</a></nav>
+  </header>
+  <main>
+    <section class="shop-masthead">
+      <span class="section-tag">THE MARVEL COLLECTION</span>
+      <h1>GEAR UP.<br /><span>HERO UP.</span></h1>
+      <p>Discover Marvel figures, collectibles, apparel and more from Disney Store, Amazon India and Flipkart.</p>
+      <a class="shop-store-link" href="https://www.disneystore.com/franchises/marvel/" target="_blank" rel="noopener noreferrer">BROWSE ALL MARVEL AT DISNEY STORE <span aria-hidden="true">&nearr;</span></a>
+    </section>
+    <section class="shop-catalog" aria-label="Marvel products">
+      <div class="catalog-heading"><div><span class="section-tag">THE FAN SHOP</span><h2>FIND YOUR <span>FAVORITE</span></h2></div><span class="catalog-count" id="catalogCount" aria-live="polite"></span></div>
+      <div class="catalog-controls">
+        <label class="catalog-search"><span class="sr-only">Search Marvel products</span><input id="productSearch" type="search" placeholder="Search products or characters" /></label>
+        <label class="sr-only" for="categoryFilter">Filter by category</label><select id="categoryFilter"><option value="all">All categories</option><option value="Figures">Figures &amp; toys</option><option value="Collectibles">Collectibles</option><option value="Apparel">Apparel</option><option value="Accessories">Accessories</option><option value="Books">Books &amp; comics</option></select>
+      </div>
+      <div class="store-pills" role="group" aria-label="Filter by store"><button class="store-pill is-active" data-store-filter="all" type="button">ALL STORES</button><button class="store-pill" data-store-filter="Disney Store" type="button">DISNEY STORE</button><button class="store-pill" data-store-filter="Amazon India" type="button">AMAZON INDIA</button><button class="store-pill" data-store-filter="Flipkart" type="button">FLIPKART</button></div>
+      <div class="catalog-grid" id="productGrid"></div>
+      <p class="catalog-note">Listings, prices and availability can change. Product buttons open the retailer’s current listing or search results.</p>
+    </section>
+  </main>
+  <footer class="shop-footer"><a class="shop-brand" href="index.html">MARVEL <span>STUDIOS</span></a><span>Fan-made discovery page. Not affiliated with Marvel Studios or retailers.</span><a href="index.html">BACK TO HOME &uarr;</a></footer>
+  <script src="shop.js"></script>
+</body>
+</html>
